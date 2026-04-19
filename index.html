@@ -1,35 +1,483 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>AI自动化 & 网络解决方案</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI自动化 & 网络解决方案</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --card-bg: rgba(30, 41, 59, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, 2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            color: var(--gray);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(10px); }
+            60% { transform: translateY(5px); }
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.125rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .service-icon {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(139,92,246,0.2));
+        }
+
+        .service-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-icon img {
+            transform: scale(1.05);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .cases {
+            background: linear-gradient(180deg, transparent 0%, rgba(30,41,59,0.5) 100%);
+        }
+
+        .cases-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .case-item {
+            background: var(--card-bg);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .case-item:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            transform: translateX(5px);
+        }
+
+        .case-item::before {
+            content: '✔';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--secondary);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .case-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .case-content p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .why-section {
+            background: linear-gradient(180deg, rgba(30,41,59,0.5) 0%, transparent 100%);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .why-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .why-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.75rem;
+        }
+
+        .why-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .why-item p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--card-bg);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.25rem;
+            text-decoration: none;
+            color: var(--light);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-email:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .case-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
 
-<h1>AI自动化 & 网络解决方案</h1>
+    <header>
+        <div class="hero-badge">
+            <span>Available for Projects</span>
+        </div>
+        <h1>AI自动化 & 网络解决方案</h1>
+        <p class="hero-subtitle">
+            我是一名拥有10年以上经验的网络工程师，<br>
+            专注于自动化与AI解决方案。
+        </p>
+        <div class="scroll-indicator">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </header>
 
-<p>我是一名拥有10年以上经验的网络工程师，专注于自动化与AI解决方案。</p>
+    <section class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>我能帮你做什么</h2>
+                <p>专业、高效、可靠的解决方案</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="Python业务自动化.png" alt="Python业务自动化">
+                    </div>
+                    <h3>Python业务自动化</h3>
+                    <p>自动化处理重复性工作，提升效率，降低人工错误</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="网络爬虫.png" alt="数据采集">
+                    </div>
+                    <h3>网络爬虫</h3>
+                    <p>电商数据采集、网站信息抓取、竞品分析</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="mplsvpn.png" alt="网络方案设计">
+                    </div>
+                    <h3>网络方案设计</h3>
+                    <p>IEPL / SD-WAN / MPLS 企业级网络架构</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h2>我能帮你做什么</h2>
-<ul>
-  <li>网页自动化（自动填表、批量操作）</li>
-  <li>数据采集（电商、网站信息抓取）</li>
-  <li>网络方案设计（IEPL / SD-WAN / MPLS）</li>
-</ul>
+    <section class="cases">
+        <div class="container">
+            <div class="section-title">
+                <h2>成功案例</h2>
+                <p>真实项目，经验丰富</p>
+            </div>
+            <div class="cases-list">
+                <div class="case-item case-detailed">
+                    <div class="case-content">
+                        <h4>自动采集视频/图片并上传到指定平台</h4>
+                        <p>按客户要求收集特定网站的视频/图片数据，下载整理并上传到指定平台。</p>
+                    </div>
+                </div>
+                <div class="case-item case-detailed">
+                    <div class="case-content">
+                        <h4>自动填写网页表单并提交</h4>
+                        <p>按客户要求自动填写网页表单，提交到指定平台。节省人力成本。</p>
+                    </div>
+                </div>
+                <div class="case-item case-detailed">
+                    <div class="case-content">
+                        <h4>跨境专线网络方案设计</h4>
+                        <p>根据客户需求提供跨境专线网络方案，确保数据安全、稳定传输。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h2>案例</h2>
-<p>✔ 自动采集电商价格并生成分析报告</p>
-<p>✔ 自动填写网页表单并提交</p>
+    <section class="why-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>为什么选择我</h2>
+                <p>专业能力 + 实战经验</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon">10+</div>
+                    <h3>年网络工程经验</h3>
+                    <p>深厚的技术积累</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">+</div>
+                    <h3>懂业务 + 懂技术</h3>
+                    <p>技术与商业结合</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">∞</div>
+                    <h3>可长期合作</h3>
+                    <p>稳定的合作关系</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<h2>为什么选择我</h2>
-<ul>
-  <li>10年网络工程经验</li>
-  <li>懂业务 + 懂技术</li>
-  <li>可长期合作</li>
-</ul>
+    <section class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>联系我</h2>
+                <p>期待与您的合作</p>
+            </div>
+            <a href="mailto:xudongsheng811@gmail.com" class="contact-email">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                xudongsheng811@gmail.com
+            </a>
+        </div>
+    </section>
 
-<h2>联系方式</h2>
-<p>Email: xudongsheng811@gmail.com</p>
-
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 AI自动化 & 网络解决方案. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
